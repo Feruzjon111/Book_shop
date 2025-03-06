@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kitoblar Do‘koni</title>
+    <style>
+        /* Umumiy sahifa uslubi */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 90%;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        /* Qidiruv paneli */
+        .search-box {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .search-box input {
+            width: 60%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .search-box input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+        }
+
+        .search-box button {
+            padding: 12px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .search-box button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Yangi kitob qo‘shish tugmasi */
+        .add-book-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 12px 20px;
+            font-size: 16px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .add-book-btn:hover {
+            background-color: #218838;
+        }
+
+        /* Kitoblar bo‘limi */
+        .books {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .book-card {
+            background: white;
+            padding: 15px;
+            border-radius: 15px;
+            text-align: left;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 600px;
+            transition: 0.3s;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .book-card img {
+            width: 120px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .book-info {
+            flex: 1;
+        }
+
+        .book-card h3 {
+            font-size: 22px;
+            margin: 0 0 5px;
+            color: #333;
+        }
+
+        .book-card p {
+            font-size: 16px;
+            color: #555;
+            margin: 5px 0;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>📚 Kitoblar Do‘koni</h2>
+
+        <a href="{% url 'create' %}" class="add-book-btn">➕ Yangi kitob qo‘shish</a>
+
+        <!-- Qidiruv formasi -->
+        <form method="GET" action="{% url 'product' %}" class="search-box">
+            <input type="text" name="search" placeholder="Kitob yoki muallif nomini kiriting..." value="{{ request.GET.search }}">
+            <button type="submit">🔍 Qidirish</button>
+        </form>
+
+        <!-- Kitoblar ro‘yxati -->
+        <div class="books">
+            {% for book in books %}
+            <a href="{% url 'detail' book.id %}" class="book-card">
+                {% if book.image %}
+                    <img src="{{ book.image.url }}" alt="{{ book.title }}">
+                {% else %}
+                    <img src="/media/defaults/book.jpg" alt="Standart rasm">
+                {% endif %}
+                <div class="book-info">
+                    <h3>{{ book.title }}</h3>
+                    <p><strong>Muallif:</strong> {{ book.author }}</p>
+                    <p><strong>Janr:</strong> {{ book.genre }}</p>
+                    <p><strong>Tavsif:</strong> {{ book.description|truncatewords:20 }}</p>
+                </div>
+            </a>
+            {% empty %}
+            <p>Hech qanday kitob topilmadi.</p>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

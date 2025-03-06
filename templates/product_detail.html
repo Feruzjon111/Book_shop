@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ book.title }}</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 90%;
+            padding: 25px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .book-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .book-image:hover {
+            transform: scale(1.05);
+        }
+
+        h2 {
+            color: #333;
+            margin: 20px 0 10px;
+        }
+
+        p {
+            font-size: 16px;
+            color: #555;
+            margin: 5px 0;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            font-size: 16px;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .btn-back {
+            background-color: #007bff;
+        }
+
+        .btn-update {
+            background-color: #ffc107;
+            color: black;
+        }
+
+        .btn-delete {
+            background-color: #dc3545;
+        }
+
+        .btn:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="{{ book.image.url }}" alt="{{ book.title }}" class="book-image">
+        <h2>{{ book.title }}</h2>
+        <p><strong>Muallif:</strong> {{ book.author }}</p>
+        <p><strong>Janr:</strong> {{ book.genre }}</p>
+        <p><strong>Tavsif:</strong> {{ book.description }}</p>
+
+        <div class="btn-container">
+            <a href="{% url 'product' %}" class="btn btn-back">⬅️ Ortga</a>
+            <a href="{% url 'update' book.id %}" class="btn btn-update">✏️ Yangilash</a>
+            <a href="{% url 'delete' book.id %}" class="btn btn-delete">🗑 O‘chirish</a>
+        </div>
+    </div>
+</body>
+</html>

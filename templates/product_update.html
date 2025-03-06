@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kitobni Tahrirlash</title>
+    <style>
+        /* Umumiy sahifa uslubi */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 90%;
+            padding: 25px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        /* Rasm ko‘rinishi */
+        .image-preview {
+            width: 150px;
+            height: 220px;
+            margin: 0 auto 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .image-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Forma uslubi */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+        }
+
+        /* Tugmalar */
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+
+        .btn {
+            padding: 10px;
+            font-size: 14px;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 48%;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .btn-save {
+            background-color: #28a745;
+        }
+
+        .btn-save:hover {
+            background-color: #218838;
+        }
+
+        .btn-cancel {
+            background-color: #dc3545;
+        }
+
+        .btn-cancel:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>📖 Kitobni Tahrirlash</h2>
+
+        <!-- Kitobning hozirgi rasmi -->
+        <div class="image-preview">
+            {% if book.image %}
+                <img src="{{ book.image.url }}" alt="{{ book.title }}">
+            {% else %}
+                <img src="/media/defaults/book.jpg" alt="Standart rasm">
+            {% endif %}
+        </div>
+
+        <!-- Forma -->
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <!-- Tugmalar -->
+            <div class="btn-group">
+                <button type="submit" class="btn btn-save">💾 Saqlash</button>
+                <a href="{% url 'detail' book.pk %}" class="btn btn-cancel">❌ Bekor qilish</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
